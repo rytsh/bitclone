@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='bitclone',
-      version='0.25',
+      version='0.26',
       description='Clone all your bitbucket repo',
       long_description=long_description,
       long_description_content_type="text/markdown",

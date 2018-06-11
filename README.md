@@ -1,6 +1,6 @@
 # bitclone
 
-### Clone All My bitbucket Repo v0.25
+### Clone All My bitbucket Repo
 
 Easly select your repo and clone it in your folder, save time.
 
