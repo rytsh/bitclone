@@ -24,7 +24,7 @@ signal.signal(signal.SIGINT, bye)
 
 def get_command_line_parameters(myloc):
     parser = argparse.ArgumentParser(description="""
-CLONE ALL MY bitbucket REPO v0.26
+CLONE ALL MY bitbucket REPO v0.27
 
 Automatically choice hg or git and clone it your location
 You must have hg or git tool.

@@ -4,11 +4,11 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='bitclone',
-      version='0.26',
+      version='0.27',
       description='Clone all your bitbucket repo',
       long_description=long_description,
       long_description_content_type="text/markdown",
-      url='http://github.com/rytsh/clone',
+      url='http://github.com/rytsh/bitclone',
       author='Eray Ates',
       author_email='eates23@gmail.com',
       entry_points={
