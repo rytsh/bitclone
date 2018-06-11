@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -16,7 +16,7 @@ setup(name='bitclone',
             'bitclone=bitclone.__main__:main',
         ],
       },
-      packages=setuptools.find_packages(),
+      packages=find_packages(),
       install_requires=[
           'requests', 'argparse',
       ],
