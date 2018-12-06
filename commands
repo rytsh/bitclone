@@ -1,0 +1,12 @@
+Build Code
+python setup.py sdist bdist_wheel --universal
+
+Local install from pip
+sudo pip2 install dist/bitclone-0.30-py2.py3-none-any.whl
+
+Upload code
+twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
+
+Upload code with config file
+Check "~/.pypirc"
+twine upload dist/*
