@@ -1,30 +1,42 @@
-"""
-Happy bitbucket
+# -*- coding: utf-8 -*-
+"""Happy bitbucket.
 
-author: Eray Ates
+Author: Eray Ates
 """
 
+from builtins import input
 import bitclone
 import sys
 import os
-import requests
-import json
+import tempfile
 import argparse
 import signal
 from getpass import getpass
 
 
 def bye(signal=None, frame=None, arg=1):
+    """
+    Use when exit everywhere.
+
+        :param signal=None: Specify Signal
+        :param frame=None: Specify frame
+        :param arg=1: Exit Code
+    """
     print("\nBye..")
+    global tmp_file
+    tmp_file.close()
+    # os.remove(tmp_file.name)
     sys.exit(arg)
 
 
-signal.signal(signal.SIGINT, bye)
-
-
 def get_command_line_parameters(myloc):
+    """
+    Argument parser.
+
+        :param myloc: Folder path to download
+    """
     parser = argparse.ArgumentParser(description="""
-CLONE ALL MY bitbucket REPO v0.27
+CLONE ALL MY bitbucket REPO v0.30
 
 Automatically choice hg or git and clone it your location
 You must have hg or git tool.
@@ -47,11 +59,27 @@ Set on Windows:
     return vars(args)
 
 
+tmp_file = tempfile.NamedTemporaryFile()
+
+
 def main():
+    """Run tool."""
+    signal.signal(signal.SIGINT, bye)
     # Command Arguments
     myloc = os.getcwd()
     params = get_command_line_parameters(myloc)
     targetf = params['dir']
+
+    # Check git and hg tools
+    global tmp_file
+    check_tools = []
+    if os.system("hg --version > {} 2>&1".format(tmp_file.name)):
+        check_tools.append("hg")
+    if os.system("git --version > {} 2>&1".format(tmp_file.name)):
+        check_tools.append("git")
+
+    if len(check_tools):
+        print("Warning: You don't have {}".format(" and ".join(check_tools)))
 
     # Target folder path
     if not os.path.exists(targetf):
@@ -68,11 +96,14 @@ def main():
     os.chdir(targetf)
 
     print("Clone my bitbucket REPOs to {}".format(myloc))
+
     username = input("Enter Atlassian username: ")
     password = getpass("Enter Password: ")
 
     allrepos = bitclone.get_repos(username, password)
     if not allrepos:
+        if type(allrepos) == list:
+            print("Don't have any repo")
         bye()
 
     # start selection

@@ -1,15 +1,28 @@
+# -*- coding: utf-8 -*-
+"""Functions of bitclone."""
 import requests
-import json
+from builtins import input
 
 __all__ = ["get_req", "get_your_choice", "get_repos", "get_links"]
 
 
 def get_req(*args):
-        return requests.get(args[0], auth=(args[1], args[2]))
+    """
+    Send get Request.
+
+        :param *args: 0 -> link
+                      1 -> username
+                      2 -> password
+    """
+    return requests.get(args[0], auth=(args[1], args[2]))
 
 
-# Selection menu
 def get_your_choice(allrepos):
+    """
+    Select menu.
+
+        :param allrepos: Repos list
+    """
     before = ''
     selected = ['X'] * len(allrepos)
     while(True):
@@ -66,17 +79,28 @@ def get_your_choice(allrepos):
 
 
 def get_repos(
-        username, password,
-        repolink='https://api.bitbucket.org/2.0/user/permissions/repositories'
+    username, password,
+    repolink='https://api.bitbucket.org/2.0/user/permissions/repositories'
 ):
-    # Get all repo links in list
+    """
+    Get all repo links in list.
+
+        :param username: Username for auth
+        :param password: Password for auth
+        :param repolink: Default link bitbucket api
+    """
     allrepos = []
 
     while True:
         r = get_req(repolink, username, password)
         try:
+            from json.decoder import JSONDecodeError
+        except ImportError:
+            JSONDecodeError = ValueError
+
+        try:
             rdict = r.json()
-        except json.decoder.JSONDecodeError:
+        except JSONDecodeError:
             print("Wrong Username/Password")
             return False
 
@@ -92,6 +116,13 @@ def get_repos(
 
 
 def get_links(repolink, username, password):
+    """
+    Get repo links.
+
+        :param repolink: URL links
+        :param username: Username
+        :param password: Password
+    """
     rlinks = {}
     r = get_req(repolink, username, password)
     rdict = r.json()
